@@ -1,0 +1,45 @@
+import jira
+from jira import JIRA
+from jira.client import JIRA
+import urllib3
+import re
+import os
+import xlrd
+import xlwt
+import sys
+import time
+import datetime
+from datetime import date
+from datetime import timedelta
+from xlrd import open_workbook
+import xlwt
+import xlsxwriter
+
+def connectUipath():
+    jira_options={'server': 'https://yourdomain.atlassian.net/'}
+    username = "emailadress" #raw_input("Username: ")
+    password = "apitoken" #getpass.getpass("Password: ")
+
+    jiraAtt=JIRA(options=jira_options,
+                    basic_auth=(username, password ))
+    return jiraAtt
+
+##########Scoate_lista_de_issuri_via_JQL########################################
+Summary = ['test_boschet1' , 'test_boschet2' , 'test_boschet3','test_boschet4','test_boschet5' ]
+Description = ["Descriere1" , "Descriere2" , "Descriere3" , "Descriere4", "Descriere5"]
+Print("The lists are being checked")
+
+if len(Summary) > len(Description):
+    print("You have more Summaries than Descriptions!!!")
+if len(Summary) < len(Description):
+    print("You have more Descriptions than Summaries!!!")
+if len(Summary) == len(Description):
+    print("Started creating issues")
+    j=0
+
+    for i in Summary:
+        jiraAtt = connectUipath()
+        new_issue = jiraAtt.create_issue(project='TEST', summary=i,
+                              description=Description[j], issuetype={'name': 'Bug'})
+        j=j+1
+print("The issues were created!")
