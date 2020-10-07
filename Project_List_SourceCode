@@ -1,0 +1,53 @@
+import jira
+from jira import JIRA
+from jira.client import JIRA
+import urllib3
+import re
+import os
+import xlrd
+import xlwt
+import sys
+import time
+import datetime
+from datetime import date
+from datetime import timedelta
+from xlrd import open_workbook
+import xlwt
+import xlsxwriter
+
+
+def connectUipath():
+    jira_options={'server': 'https://yourdomain.atlassian.net/'}
+    username = "emailadress" #raw_input("Username: ")
+    password = "apitoken" #getpass.getpass("Password: ")
+
+    jiraAtt=JIRA(options=jira_options,
+                    basic_auth=(username, password ))
+    return jiraAtt
+print ('Connecting 10%')
+print ('Connecting 25%')
+print ('Connecting 50%')
+print ('Connecting 75%')
+print ('Connecting 100%')
+
+jiraAtt = connectUipath()
+projects = jiraAtt.projects()
+print("Lista de proiecte:")
+print(projects)
+print("Scrie in XLS")
+workbook = xlsxwriter.Workbook('C:\\Users\\cristi\\Desktop\\Jira-PYthon\\Project_List\\Project_List_jira.xlsx')
+worksheet = workbook.add_worksheet()
+row = 0
+column = 0
+
+for item in projects :
+
+    # write operation perform
+    worksheet.write(row, column, str(item))
+
+    # incrementing the value of row by one
+    # with each iteratons.
+    row += 1
+
+workbook.close()
+print("Finish!")
